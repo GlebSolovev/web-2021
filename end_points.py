@@ -2,7 +2,7 @@ from fastapi import Query, status
 from fastapi.responses import JSONResponse
 
 from main import app
-from pydantic_models import Message, Item
+from pydantic_models import Item, TooLowPriceApiException
 
 
 @app.get("/")
@@ -24,12 +24,12 @@ async def read_user_id(user_id: int):
 
 
 @app.post("/api/", responses={
-    status.HTTP_405_METHOD_NOT_ALLOWED: {"model": Message, "description": "Price became too low, min=1."}})
+    status.HTTP_405_METHOD_NOT_ALLOWED: {"model": TooLowPriceApiException}})
 async def apply_discount(item: Item):
     item_dict = item.dict()
     item_dict["price"] *= 0.8
     item_dict["item_name"] += " (Discount applied)"
     if item_dict["price"] < 1:
         return JSONResponse(status_code=status.HTTP_405_METHOD_NOT_ALLOWED,
-                            content={"message": "Price became too low, min=1."})
+                            content=TooLowPriceApiException().dict())
     return item_dict

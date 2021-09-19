@@ -7,5 +7,5 @@ class Item(BaseModel):
     item_name: str
 
 
-class Message(BaseModel):
-    message: str
+class TooLowPriceApiException(BaseModel):
+    message: str = "Price became too low, min=1."
