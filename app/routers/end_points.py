@@ -1,29 +1,30 @@
-from fastapi import Query, status
+from fastapi import Query, status, APIRouter
 from fastapi.responses import JSONResponse
 
-from main import app
-from pydantic_models import Item, TooLowPriceApiException
+from app.models.pydantic_models import Item, TooLowPriceApiException
+
+router = APIRouter()
 
 
-@app.get("/")
+@router.get("/")
 async def root():
     return {"message": "Hello, you're at the root!"}
 
 
-@app.get("/api/")
+@router.get("/api/")
 async def read_user_id(
         user_id: int = Query(..., alias="id")):
     item = {"user_id": user_id}
     return item
 
 
-@app.get("/api/{user_id}")
+@router.get("/api/{user_id}")
 async def read_user_id(user_id: int):
     item = {"user_id": user_id}
     return item
 
 
-@app.post("/api/", responses={
+@router.post("/api/", responses={
     status.HTTP_405_METHOD_NOT_ALLOWED: {"model": TooLowPriceApiException}})
 async def apply_discount(item: Item):
     item_dict = item.dict()
