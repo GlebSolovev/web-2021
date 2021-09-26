@@ -14,5 +14,9 @@ class NoSuchUserErrorResponse(BaseModel):
     message: str = "Incorrect secret key, no such user in database"
 
 
-class NotEnoughCoinsErrorResponse(BaseModel):
-    message: str = "Not enough coins on the balance"
+class SelfTransactionsAreForbiddenErrorResponse(BaseModel):
+    message: str = "Self transactions are forbidden"
+
+
+class BadCoinsNumberErrorResponse(BaseModel):
+    message: str = "Number of coins must be > 0 and <= balance"

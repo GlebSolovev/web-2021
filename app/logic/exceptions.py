@@ -6,5 +6,13 @@ class NoSuchUserException(Exception):
     pass
 
 
-class NotEnoughCoinsException(Exception):
+class UserAlreadyExistsException(Exception):
+    pass
+
+
+class SelfTransactionsAreForbiddenException(Exception):
+    pass
+
+
+class BadCoinsNumberException(Exception):
     pass
