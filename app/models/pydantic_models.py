@@ -1,11 +1,18 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
-class Item(BaseModel):
-    user_name: str
-    price: float = Field(..., ge=1)
-    item_name: str
+class User(BaseModel):
+    name: str
+    wish: str
 
 
-class TooLowPriceApiException(BaseModel):
-    message: str = "Price became too low, min=1."
+class UsersLimitHasReachedErrorResponse(BaseModel):
+    message: str = "Database is full, no more new users are allowed"
+
+
+class NoSuchUserErrorResponse(BaseModel):
+    message: str = "Incorrect secret key, no such user in database"
+
+
+class NotEnoughCoinsErrorResponse(BaseModel):
+    message: str = "Not enough coins on the balance"
