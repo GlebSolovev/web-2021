@@ -11,7 +11,7 @@ class UsersLimitHasReachedErrorResponse(BaseModel):
 
 
 class NoSuchUserErrorResponse(BaseModel):
-    message: str = "Incorrect secret key, no such user in database"
+    message: str = "Incorrect secret key, no such user in storage"
 
 
 class SelfTransactionsAreForbiddenErrorResponse(BaseModel):
