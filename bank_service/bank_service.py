@@ -12,7 +12,7 @@ import bank_service.bank_pb2_grpc as bank_pb2_grpc
 class BankService(bank_pb2_grpc.BankServicer):
 
     def __init__(self, max_limit: int = 100_000):
-        self.max_limit = max_limit
+        self.max_limit: int = max_limit
         self.__database: Dict[int, int] = {}
 
     def ApplyTransaction(self, request, context):
