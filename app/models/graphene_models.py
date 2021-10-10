@@ -10,10 +10,9 @@ from app.logic.user import User
 
 
 class HappyUser(ObjectType):
-    id = Int(required=True)
     name = String(required=True)
     wish = String(required=True)
-    karma = Int(required=True)
+    # karma = Int(required=True)
 
 
 class Record(ObjectType):
@@ -23,8 +22,7 @@ class Record(ObjectType):
 
 def convert_raw_record(raw_record: Tuple[str, User]) -> Record:
     date, user = raw_record
-    return Record(date=date, happy_person=HappyUser(
-        id=user.id, name=user.name, wish=user.wish, karma=user.get_karma()))
+    return Record(date=date, happy_person=HappyUser(name=user.name, wish=user.wish))  # get karma
 
 
 # noinspection PyMethodMayBeStatic,PyUnusedLocal

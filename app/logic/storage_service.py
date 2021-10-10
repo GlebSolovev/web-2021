@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 from typing import List, Tuple, NoReturn
 
-from app.logic.constants import Constants
+from utils.constants import Constants
 from app.logic.exceptions import BadDateException
 from app.logic.user import User
 
