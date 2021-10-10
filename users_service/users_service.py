@@ -12,7 +12,7 @@ from utils.utils_pb2 import OperationStatus
 
 class UsersService(users_pb2_grpc.UsersServicer):
 
-    def __init__(self, max_limit: int = 100_000):
+    def __init__(self, max_limit: int = Constants.MAX_USERS_LIMIT):
         self.max_limit = max_limit
         self.__keys_to_users: Dict[str, User] = {}
         self.__ids_to_users: Dict[int, User] = {}
