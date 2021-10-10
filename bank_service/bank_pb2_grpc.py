@@ -24,10 +24,10 @@ class BankStub(object):
                 request_serializer=bank__pb2.BalanceRequest.SerializeToString,
                 response_deserializer=bank__pb2.BalanceResponse.FromString,
                 )
-        self.AddUser = channel.unary_unary(
-                '/Bank/AddUser',
-                request_serializer=bank__pb2.AddUserRequest.SerializeToString,
-                response_deserializer=bank__pb2.AddUserResponse.FromString,
+        self.AddBankUser = channel.unary_unary(
+                '/Bank/AddBankUser',
+                request_serializer=bank__pb2.AddBankUserRequest.SerializeToString,
+                response_deserializer=bank__pb2.AddBankUserResponse.FromString,
                 )
 
 
@@ -46,7 +46,7 @@ class BankServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def AddUser(self, request, context):
+    def AddBankUser(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -65,10 +65,10 @@ def add_BankServicer_to_server(servicer, server):
                     request_deserializer=bank__pb2.BalanceRequest.FromString,
                     response_serializer=bank__pb2.BalanceResponse.SerializeToString,
             ),
-            'AddUser': grpc.unary_unary_rpc_method_handler(
-                    servicer.AddUser,
-                    request_deserializer=bank__pb2.AddUserRequest.FromString,
-                    response_serializer=bank__pb2.AddUserResponse.SerializeToString,
+            'AddBankUser': grpc.unary_unary_rpc_method_handler(
+                    servicer.AddBankUser,
+                    request_deserializer=bank__pb2.AddBankUserRequest.FromString,
+                    response_serializer=bank__pb2.AddBankUserResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -115,7 +115,7 @@ class Bank(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def AddUser(request,
+    def AddBankUser(request,
             target,
             options=(),
             channel_credentials=None,
@@ -125,8 +125,8 @@ class Bank(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Bank/AddUser',
-            bank__pb2.AddUserRequest.SerializeToString,
-            bank__pb2.AddUserResponse.FromString,
+        return grpc.experimental.unary_unary(request, target, '/Bank/AddBankUser',
+            bank__pb2.AddBankUserRequest.SerializeToString,
+            bank__pb2.AddBankUserResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

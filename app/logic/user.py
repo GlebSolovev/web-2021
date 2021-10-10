@@ -5,13 +5,12 @@ from typing import Dict, Union
 
 class User:
 
-    def __init__(self, key: str, user_id: int, bank_id: int, name: str, wish: str, karma: int = 0):
+    def __init__(self, key: str, bank_id: int, karma_id: int, name: str, wish: str):
         self.__key = key
-        self.id = user_id
-        self.bank_id = None
+        self.bank_id = bank_id
+        self.karma_id = karma_id
         self.name = name
         self.wish = wish
-        self.__karma = karma
 
     @staticmethod
     def generate_new_key(key_len: int) -> str:
@@ -23,14 +22,8 @@ class User:
     def get_key(self) -> str:
         return self.__key
 
-    def get_karma(self) -> int:
-        return self.__karma
-
-    def increase_karma(self, value: int) -> None:
-        self.__karma += value
-
     def get_public_info(self) -> Dict[str, Union[str, int]]:
-        return {"id": self.id, "name": self.name, "wish": self.wish, "karma": self.__karma}
+        return {"name": self.name, "wish": self.wish}
 
     def get_secret_key_info(self) -> Dict[str, str]:
-        return {"secret_key": self.__key}
+        return {"secret_key": self.__key, "bank_id": self.bank_id, "karma_id": self.karma_id}

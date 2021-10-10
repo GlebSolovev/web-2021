@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+enum OperationStatus {
+  SUCCESS = 0;
+  NOT_ENOUGH_COINS = 1;
+  SELF_TRANSACTION = 2;
+  USER_NOT_FOUND = 3;
+  STORAGE_IS_FULL = 4;
+}
