@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+enum OperationStatus {
+  SUCCESS = 0;
+  NOT_ENOUGH_COINS = 1;
+  SELF_TRANSACTION = 2;
+  USER_NOT_FOUND = 3;
+  STORAGE_IS_FULL = 4;
+}
+
+message TransactionRequest {
+  int32 from_user_id = 1;
+  int32 to_user_id = 2;
+  uint32 coins = 3;
+}
+
+message TransactionResponse {
+  OperationStatus status = 1;
+}
+
+message BalanceRequest {
+  int32 user_id = 1;
+}
+
+message BalanceResponse {
+  uint32 balance = 1;
+  OperationStatus status = 2;
+}
+
+message AddUserRequest {
+  uint32 balance = 1;
+}
+
+message AddUserResponse {
+  int32 user_id = 1;
+  OperationStatus status = 2;
+}
+
+service Bank {
+  rpc ApplyTransaction (TransactionRequest) returns (TransactionResponse);
+  rpc GetBalance (BalanceRequest) returns (BalanceResponse);
+  rpc AddUser (AddUserRequest) returns (AddUserResponse);
+}

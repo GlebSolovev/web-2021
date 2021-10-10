@@ -43,7 +43,7 @@ async def register_new_user(new_user: User):
 async def read_user(secret_key: str):
     try:
         user = GlobalEnv.handler.get_user(secret_key)
-        return user.get_full_info()
+        return GlobalEnv.handler.get_full_info(user)
     except NoSuchUserException:
         return JSONResponse(status_code=status.HTTP_404_NOT_FOUND,
                             content=NoSuchUserErrorResponse().dict())
@@ -56,7 +56,7 @@ async def read_user(secret_key: str):
 async def support_happy_person(secret_key: str, coins: int):
     try:
         user = GlobalEnv.handler.get_user(secret_key)
-        GlobalEnv.handler.apply_transaction(user, handler.get_happy_user(), coins)
+        GlobalEnv.handler.apply_transaction(user, GlobalEnv.handler.get_happy_user(), coins)
         success_message = {"message": "Operation succeed!"}
         return success_message
     except NoSuchUserException:

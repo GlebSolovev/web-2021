@@ -1,4 +1,5 @@
 class Constants:
-    KEYS_LEN = 100
-    MAX_USERS_LIMIT = 100_000
-    DATE_FORMAT = "%Y-%m-%d"
+    KEYS_LEN: int = 100
+    INITIAL_BALANCE: int = 100
+    MAX_USERS_LIMIT: int = 100_000
+    DATE_FORMAT: str = "%Y-%m-%d"
