@@ -25,5 +25,8 @@ class User:
     def get_public_info(self) -> Dict[str, Union[str, int]]:
         return {"name": self.name, "wish": self.wish}
 
-    def get_secret_key_info(self) -> Dict[str, str]:
+    def get_private_info(self) -> Dict[str, Union[str, int]]:
         return {"secret_key": self.__key, "bank_id": self.__bank_id, "user_id": self.__user_id}
+
+    def get_secret_key_info(self) -> Dict[str, str]:
+        return {"secret_key": self.__key}

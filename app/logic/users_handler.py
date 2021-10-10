@@ -46,23 +46,24 @@ class UsersHandler:
         )
         return UsersStub(users_service_channel)
 
-    def __create_user(self, name: str, wish: str, karma: int) -> User:
-        add_bank_user_request = AddBankUserRequest(balance=Constants.INITIAL_BALANCE)
+    def create_user(self, name: str, wish: str, karma: int = Constants.INITIAL_KARMA,
+                    balance: int = Constants.INITIAL_BALANCE) -> User:
+        add_bank_user_request = AddBankUserRequest(balance=balance)
         add_bank_user_response = self.bank_service_client.AddBankUser(add_bank_user_request)
         status = add_bank_user_response.status
         if status == OperationStatus.STORAGE_IS_FULL:
             raise UsersLimitHasReachedException
         elif status != OperationStatus.SUCCESS:
-            raise ValueError("invalid bank AddUser OperationStatus " + str(status))
+            raise ValueError("invalid bank AddBankUser OperationStatus " + str(status))
         bank_id = add_bank_user_response.user_id
 
         add_karma_user_request = AddKarmaUserRequest(karma=karma)
-        add_karma_user_response = self.karma_service_client.AddUser(add_karma_user_request)
+        add_karma_user_response = self.karma_service_client.AddKarmaUser(add_karma_user_request)
         status = add_karma_user_response.status
         if status == OperationStatus.STORAGE_IS_FULL:
             raise UsersLimitHasReachedException
         elif status != OperationStatus.SUCCESS:
-            raise ValueError("invalid karma AddUser OperationStatus " + str(status))
+            raise ValueError("invalid karma AddKarmaUser OperationStatus " + str(status))
         user_id = add_karma_user_response.user_id
 
         add_new_user_request = AddNewUserRequest(
@@ -81,7 +82,7 @@ class UsersHandler:
         self.bank_service_client: BankStub = self.__init_bank_service_connection()
         self.karma_service_client: KarmaStub = self.__init_karma_service_connection()
         self.users_service_client: UsersStub = self.__init_users_service_connection()
-        self.initial_user: User = self.__create_user(name="admin", wish="My dream is to develop this app!", karma=1)
+        self.initial_user: User = self.create_user(name="admin", wish="My dream is to develop this app!", karma=1)
 
         self.last_happy_user_update_date: str = ""
         self.happy_user_id: int = -1
@@ -109,7 +110,7 @@ class UsersHandler:
         return happy_user
 
     def add_new_user(self, new_user_name: str, new_user_wish: str) -> User:
-        return self.__create_user(name=new_user_name, wish=new_user_wish, karma=Constants.INITIAL_KARMA)
+        return self.create_user(name=new_user_name, wish=new_user_wish, karma=Constants.INITIAL_KARMA)
 
     def get_user(self, secret_key: str) -> User:
         get_user_by_key_request = GetUserByKeyRequest(key=secret_key)
@@ -135,17 +136,8 @@ class UsersHandler:
         user = get_user_by_id_response.user
         return User(key=user.key, bank_id=user.bank_id, user_id=user.user_id, name=user.name, wish=user.wish)
 
-    def get_full_info(self, user: User) -> Dict[str, Union[str, int]]:
-        app_service_info = user.get_public_info()
-        app_service_info.update(user.get_secret_key_info())
-
-        get_balance_request = BalanceRequest(user_id=user.get_bank_id())
-        get_balance_response = self.bank_service_client.GetBalance(get_balance_request)
-        status = get_balance_response.status
-        if status != OperationStatus.SUCCESS:
-            raise ValueError("invalid bank GetBalance OperationStatus " + str(status))
-        bank_service_info = {"balance": get_balance_response.balance}
-        app_service_info.update(bank_service_info)
+    def get_public_info(self, user: User) -> Dict[str, Union[str, int]]:
+        public_info = user.get_public_info()
 
         get_karma_request = KarmaRequest(user_id=user.get_user_id())
         get_karma_response = self.karma_service_client.GetKarma(get_karma_request)
@@ -153,13 +145,30 @@ class UsersHandler:
         if status != OperationStatus.SUCCESS:
             raise ValueError("invalid karma GetKarma OperationStatus " + str(status))
         karma_service_info = {"karma": get_karma_response.karma}
-        app_service_info.update(karma_service_info)
+        public_info.update(karma_service_info)
 
-        return app_service_info
+        return public_info
+
+    def get_full_info(self, user: User) -> Dict[str, Union[str, int]]:
+        full_info = self.get_public_info(user)
+        full_info.update(user.get_private_info())
+
+        get_balance_request = BalanceRequest(user_id=user.get_bank_id())
+        get_balance_response = self.bank_service_client.GetBalance(get_balance_request)
+        status = get_balance_response.status
+        if status != OperationStatus.SUCCESS:
+            raise ValueError("invalid bank GetBalance OperationStatus " + str(status))
+        bank_service_info = {"balance": get_balance_response.balance}
+        full_info.update(bank_service_info)
+
+        return full_info
 
     def apply_transaction(self, from_user: User, to_user: User, coins: int) -> NoReturn:
-        transaction_request = TransactionRequest(
-            from_user_id=from_user.get_bank_id(), to_user_id=to_user.get_bank_id(), coins=coins)
+        try:
+            transaction_request = TransactionRequest(
+                from_user_id=from_user.get_bank_id(), to_user_id=to_user.get_bank_id(), coins=coins)
+        except ValueError:
+            raise BadCoinsNumberException
         transaction_response = self.bank_service_client.ApplyTransaction(transaction_request)
         status = transaction_response.status
         if status == OperationStatus.SUCCESS:
@@ -172,6 +181,8 @@ class UsersHandler:
         elif status == OperationStatus.SELF_TRANSACTION:
             raise SelfTransactionsAreForbiddenException
         elif status == OperationStatus.NOT_ENOUGH_COINS:
+            raise BadCoinsNumberException
+        elif status == OperationStatus.ZERO_COINS:
             raise BadCoinsNumberException
         else:
             raise ValueError("invalid bank OperationStatus " + str(status))

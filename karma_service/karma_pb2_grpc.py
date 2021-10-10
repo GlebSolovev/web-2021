@@ -24,8 +24,8 @@ class KarmaStub(object):
                 request_serializer=karma__pb2.KarmaRequest.SerializeToString,
                 response_deserializer=karma__pb2.KarmaResponse.FromString,
                 )
-        self.AddUser = channel.unary_unary(
-                '/Karma/AddUser',
+        self.AddKarmaUser = channel.unary_unary(
+                '/Karma/AddKarmaUser',
                 request_serializer=karma__pb2.AddKarmaUserRequest.SerializeToString,
                 response_deserializer=karma__pb2.AddKarmaUserResponse.FromString,
                 )
@@ -51,7 +51,7 @@ class KarmaServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def AddUser(self, request, context):
+    def AddKarmaUser(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -76,8 +76,8 @@ def add_KarmaServicer_to_server(servicer, server):
                     request_deserializer=karma__pb2.KarmaRequest.FromString,
                     response_serializer=karma__pb2.KarmaResponse.SerializeToString,
             ),
-            'AddUser': grpc.unary_unary_rpc_method_handler(
-                    servicer.AddUser,
+            'AddKarmaUser': grpc.unary_unary_rpc_method_handler(
+                    servicer.AddKarmaUser,
                     request_deserializer=karma__pb2.AddKarmaUserRequest.FromString,
                     response_serializer=karma__pb2.AddKarmaUserResponse.SerializeToString,
             ),
@@ -131,7 +131,7 @@ class Karma(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def AddUser(request,
+    def AddKarmaUser(request,
             target,
             options=(),
             channel_credentials=None,
@@ -141,7 +141,7 @@ class Karma(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Karma/AddUser',
+        return grpc.experimental.unary_unary(request, target, '/Karma/AddKarmaUser',
             karma__pb2.AddKarmaUserRequest.SerializeToString,
             karma__pb2.AddKarmaUserResponse.FromString,
             options, channel_credentials,

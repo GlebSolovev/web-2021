@@ -20,7 +20,7 @@ def test_simple_add_new_user():
     service = KarmaService()
     karma = generate_karma(1)[0]
     request = AddKarmaUserRequest(karma=karma)
-    response = service.AddUser(request, None)
+    response = service.AddKarmaUser(request, None)
     assert response.status == OperationStatus.SUCCESS
 
 
@@ -28,7 +28,7 @@ def test_simple_add_and_get():
     service = KarmaService()
     karma = generate_karma(1)[0]
     request = AddKarmaUserRequest(karma=karma)
-    user_id = service.AddUser(request, None).user_id
+    user_id = service.AddKarmaUser(request, None).user_id
 
     request = KarmaRequest(user_id=user_id)
     response = service.GetKarma(request, None)
@@ -44,7 +44,7 @@ def test_add_and_get_complex():
         user_ids = []
         for karma in karmas:
             request = AddKarmaUserRequest(karma=karma)
-            response = service.AddUser(request, None)
+            response = service.AddKarmaUser(request, None)
             assert response.status == OperationStatus.SUCCESS
             user_ids.append(response.user_id)
 
@@ -63,11 +63,11 @@ def test_add_user_make_database_full():
     service = KarmaService(max_limit=1)
     karma = generate_karma(1)[0]
     request = AddKarmaUserRequest(karma=karma)
-    response = service.AddUser(request, None)
+    response = service.AddKarmaUser(request, None)
     assert response.status == OperationStatus.SUCCESS
 
     request = AddKarmaUserRequest(karma=karma)
-    response = service.AddUser(request, None)
+    response = service.AddKarmaUser(request, None)
     assert response.status == OperationStatus.STORAGE_IS_FULL
 
 
@@ -78,12 +78,12 @@ def test_choose_single_user_simple():
     response = service.ChooseKarmaWeightedRandomUsers(request, None)
     assert response.status == OperationStatus.USER_NOT_FOUND
 
-    service.AddUser(AddKarmaUserRequest(karma=0), None)
+    service.AddKarmaUser(AddKarmaUserRequest(karma=0), None)
     request = ChooseUsersRequest(forbidden_user_ids=[], users_to_choose=1)
     response = service.ChooseKarmaWeightedRandomUsers(request, None)
     assert response.status == OperationStatus.USER_NOT_FOUND
 
-    user_id = service.AddUser(AddKarmaUserRequest(karma=1), None).user_id
+    user_id = service.AddKarmaUser(AddKarmaUserRequest(karma=1), None).user_id
     request = ChooseUsersRequest(forbidden_user_ids=[], users_to_choose=1)
     response = service.ChooseKarmaWeightedRandomUsers(request, None)
     assert response.status == OperationStatus.SUCCESS
@@ -102,17 +102,17 @@ def test_choose_multiple_users():
     response = service.ChooseKarmaWeightedRandomUsers(request, None)
     assert response.status == OperationStatus.USER_NOT_FOUND
 
-    service.AddUser(AddKarmaUserRequest(karma=0), None)
+    service.AddKarmaUser(AddKarmaUserRequest(karma=0), None)
     request = ChooseUsersRequest(forbidden_user_ids=[], users_to_choose=2)
     response = service.ChooseKarmaWeightedRandomUsers(request, None)
     assert response.status == OperationStatus.USER_NOT_FOUND
 
-    user_a_id = service.AddUser(AddKarmaUserRequest(karma=1), None).user_id
+    user_a_id = service.AddKarmaUser(AddKarmaUserRequest(karma=1), None).user_id
     request = ChooseUsersRequest(forbidden_user_ids=[], users_to_choose=2)
     response = service.ChooseKarmaWeightedRandomUsers(request, None)
     assert response.status == OperationStatus.USER_NOT_FOUND
 
-    user_b_id = service.AddUser(AddKarmaUserRequest(karma=1), None).user_id
+    user_b_id = service.AddKarmaUser(AddKarmaUserRequest(karma=1), None).user_id
     request = ChooseUsersRequest(forbidden_user_ids=[], users_to_choose=2)
     response = service.ChooseKarmaWeightedRandomUsers(request, None)
     assert response.status == OperationStatus.SUCCESS
@@ -133,10 +133,10 @@ def test_choose_users_stress():
     forbidden_user_ids = []
 
     for karma in range(1, 10):
-        forbidden_user_ids.append(service.AddUser(AddKarmaUserRequest(karma=karma), None).user_id)
+        forbidden_user_ids.append(service.AddKarmaUser(AddKarmaUserRequest(karma=karma), None).user_id)
 
     for i in range(len(karmas)):
-        user_id = service.AddUser(AddKarmaUserRequest(karma=karmas[i]), None).user_id
+        user_id = service.AddKarmaUser(AddKarmaUserRequest(karma=karmas[i]), None).user_id
         users.update({user_id: karmas[i]})
         request = ChooseUsersRequest(forbidden_user_ids=forbidden_user_ids, users_to_choose=k)
         response = service.ChooseKarmaWeightedRandomUsers(request, None)
@@ -149,7 +149,7 @@ def test_choose_users_stress():
             assert response.status == OperationStatus.USER_NOT_FOUND
 
     for _ in range(n):
-        user_id = service.AddUser(AddKarmaUserRequest(karma=0), None).user_id
+        user_id = service.AddKarmaUser(AddKarmaUserRequest(karma=0), None).user_id
         users.update({user_id: 0})
 
         request = ChooseUsersRequest(forbidden_user_ids=forbidden_user_ids, users_to_choose=k)
@@ -177,7 +177,7 @@ def test_modify_karma_simple():
 
     karma = 10
     request = AddKarmaUserRequest(karma=karma)
-    user_id = service.AddUser(request, None).user_id
+    user_id = service.AddKarmaUser(request, None).user_id
 
     delta = 5
     karma += delta
@@ -205,7 +205,7 @@ def test_modify_karma_simple_via_choice():
     service = KarmaService()
     karma = 0
     request = AddKarmaUserRequest(karma=karma)
-    user_id = service.AddUser(request, None).user_id
+    user_id = service.AddKarmaUser(request, None).user_id
 
     request = ChooseUsersRequest(forbidden_user_ids=[], users_to_choose=1)
     response = service.ChooseKarmaWeightedRandomUsers(request, None)
@@ -230,14 +230,14 @@ def test_random_choice_is_karma_weighted():
     big_karma = 10_000
 
     request = AddKarmaUserRequest(karma=negative_karma)
-    service.AddUser(request, None)
+    service.AddKarmaUser(request, None)
     request = AddKarmaUserRequest(karma=zero_karma)
-    service.AddUser(request, None)
+    service.AddKarmaUser(request, None)
 
     request = AddKarmaUserRequest(karma=small_karma)
-    small_user_id = service.AddUser(request, None).user_id
+    small_user_id = service.AddKarmaUser(request, None).user_id
     request = AddKarmaUserRequest(karma=big_karma)
-    big_user_id = service.AddUser(request, None).user_id
+    big_user_id = service.AddKarmaUser(request, None).user_id
 
     def count_small_and_big_users_wins() -> Tuple[int, int]:
         n = 10_000

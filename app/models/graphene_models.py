@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 
 import graphene
-from graphene import String, ObjectType, Date, Int, Field, List
+from graphene import String, ObjectType, Date, Field, List
 from typing import Tuple
 
 from app.logic.exceptions import BadDateException
@@ -22,7 +22,7 @@ class Record(ObjectType):
 
 def convert_raw_record(raw_record: Tuple[str, User]) -> Record:
     date, user = raw_record
-    return Record(date=date, happy_person=HappyUser(name=user.name, wish=user.wish))  # get karma
+    return Record(date=date, happy_person=HappyUser(name=user.name, wish=user.wish))  # TODO: add karma
 
 
 # noinspection PyMethodMayBeStatic,PyUnusedLocal

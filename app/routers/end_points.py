@@ -23,7 +23,7 @@ async def root():
 @router.get("/happy-person")
 async def read_happy_user():
     happy_user = GlobalEnv.handler.get_happy_user()
-    return happy_user.get_public_info()
+    return GlobalEnv.handler.get_public_info(happy_user)
 
 
 @router.post("/new-user", responses={

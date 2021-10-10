@@ -17,5 +17,6 @@ class SelfTransactionsAreForbiddenException(Exception):
 class BadCoinsNumberException(Exception):
     pass
 
+
 class BadDateException(Exception):
     pass

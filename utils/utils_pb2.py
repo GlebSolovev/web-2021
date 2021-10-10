@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0butils.proto*\x8c\x01\n\x0fOperationStatus\x12\x0b\n\x07SUCCESS\x10\x00\x12\x14\n\x10NOT_ENOUGH_COINS\x10\x01\x12\x14\n\x10SELF_TRANSACTION\x10\x02\x12\x12\n\x0eUSER_NOT_FOUND\x10\x03\x12\x17\n\x13USER_ALREADY_EXISTS\x10\x04\x12\x13\n\x0fSTORAGE_IS_FULL\x10\x05\x62\x06proto3'
+  serialized_pb=b'\n\x0butils.proto*\x9c\x01\n\x0fOperationStatus\x12\x0b\n\x07SUCCESS\x10\x00\x12\x14\n\x10NOT_ENOUGH_COINS\x10\x01\x12\x0e\n\nZERO_COINS\x10\x02\x12\x14\n\x10SELF_TRANSACTION\x10\x03\x12\x12\n\x0eUSER_NOT_FOUND\x10\x04\x12\x17\n\x13USER_ALREADY_EXISTS\x10\x05\x12\x13\n\x0fSTORAGE_IS_FULL\x10\x06\x62\x06proto3'
 )
 
 _OPERATIONSTATUS = _descriptor.EnumDescriptor(
@@ -41,22 +41,27 @@ _OPERATIONSTATUS = _descriptor.EnumDescriptor(
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='SELF_TRANSACTION', index=2, number=2,
+      name='ZERO_COINS', index=2, number=2,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='USER_NOT_FOUND', index=3, number=3,
+      name='SELF_TRANSACTION', index=3, number=3,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='USER_ALREADY_EXISTS', index=4, number=4,
+      name='USER_NOT_FOUND', index=4, number=4,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='STORAGE_IS_FULL', index=5, number=5,
+      name='USER_ALREADY_EXISTS', index=5, number=5,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='STORAGE_IS_FULL', index=6, number=6,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
@@ -64,17 +69,18 @@ _OPERATIONSTATUS = _descriptor.EnumDescriptor(
   containing_type=None,
   serialized_options=None,
   serialized_start=16,
-  serialized_end=156,
+  serialized_end=172,
 )
 _sym_db.RegisterEnumDescriptor(_OPERATIONSTATUS)
 
 OperationStatus = enum_type_wrapper.EnumTypeWrapper(_OPERATIONSTATUS)
 SUCCESS = 0
 NOT_ENOUGH_COINS = 1
-SELF_TRANSACTION = 2
-USER_NOT_FOUND = 3
-USER_ALREADY_EXISTS = 4
-STORAGE_IS_FULL = 5
+ZERO_COINS = 2
+SELF_TRANSACTION = 3
+USER_NOT_FOUND = 4
+USER_ALREADY_EXISTS = 5
+STORAGE_IS_FULL = 6
 
 
 DESCRIPTOR.enum_types_by_name['OperationStatus'] = _OPERATIONSTATUS

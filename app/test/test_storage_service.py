@@ -5,7 +5,11 @@ from typing import List, Tuple
 
 from app.logic.exceptions import BadDateException
 from app.logic.storage_service import StorageService, convert_to_date_str, convert_to_date_object, Record
-from app.test.test_users_handler import generate_first_users
+from app.logic.user import User
+
+
+def generate_first_users(n: int) -> List[User]:
+    return [User(key=str(i), bank_id=i, user_id=i, name=str(i), wish=str(i)) for i in range(1, n + 1)]
 
 
 def generate_records(n: int, from_date_str: str) -> List[Record]:

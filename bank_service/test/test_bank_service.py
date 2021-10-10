@@ -97,6 +97,10 @@ def test_apply_transaction_fails():
     response = service.ApplyTransaction(request, None)
     assert response.status == OperationStatus.SELF_TRANSACTION
 
+    request = TransactionRequest(from_user_id=from_user_id, to_user_id=to_user_id, coins=0)
+    response = service.ApplyTransaction(request, None)
+    assert response.status == OperationStatus.ZERO_COINS
+
 
 # noinspection DuplicatedCode
 def test_apply_transaction_simple():
@@ -112,12 +116,6 @@ def test_apply_transaction_simple():
     to_user_balance += delta
 
     request = TransactionRequest(from_user_id=from_user_id, to_user_id=to_user_id, coins=delta)
-    response = service.ApplyTransaction(request, None)
-    assert response.status == OperationStatus.SUCCESS
-    assert service.GetBalance(BalanceRequest(user_id=from_user_id), None).balance == from_user_balance
-    assert service.GetBalance(BalanceRequest(user_id=to_user_id), None).balance == to_user_balance
-
-    request = TransactionRequest(from_user_id=from_user_id, to_user_id=to_user_id, coins=0)
     response = service.ApplyTransaction(request, None)
     assert response.status == OperationStatus.SUCCESS
     assert service.GetBalance(BalanceRequest(user_id=from_user_id), None).balance == from_user_balance

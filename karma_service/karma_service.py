@@ -28,7 +28,7 @@ class KarmaService(karma_pb2_grpc.KarmaServicer):
             return KarmaResponse(status=OperationStatus.USER_NOT_FOUND)
         return KarmaResponse(karma=self.__karma_database[request.user_id], status=OperationStatus.SUCCESS)
 
-    def AddUser(self, request, context):
+    def AddKarmaUser(self, request, context):
         new_user_id = len(self.__karma_database)
         if len(self.__karma_database) == self.max_limit:
             return AddKarmaUserResponse(status=OperationStatus.STORAGE_IS_FULL)

@@ -22,6 +22,8 @@ class BankService(bank_pb2_grpc.BankServicer):
             return TransactionResponse(status=OperationStatus.SELF_TRANSACTION)
         if self.__database[request.from_user_id] < request.coins:
             return TransactionResponse(status=OperationStatus.NOT_ENOUGH_COINS)
+        if request.coins == 0:
+            return TransactionResponse(status=OperationStatus.ZERO_COINS)
         self.__database[request.from_user_id] -= request.coins
         self.__database[request.to_user_id] += request.coins
         return TransactionResponse(status=OperationStatus.SUCCESS)
