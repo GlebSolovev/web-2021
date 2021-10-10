@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0bkarma.proto\x1a\x0butils.proto\"4\n\x12ModifyKarmaRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\r\n\x05\x64\x65lta\x18\x02 \x01(\x05\"7\n\x13ModifyKarmaResponse\x12 \n\x06status\x18\x02 \x01(\x0e\x32\x10.OperationStatus\"\x1f\n\x0cKarmaRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\"@\n\rKarmaResponse\x12\r\n\x05karma\x18\x01 \x01(\x05\x12 \n\x06status\x18\x02 \x01(\x0e\x32\x10.OperationStatus\"$\n\x13\x41\x64\x64KarmaUserRequest\x12\r\n\x05karma\x18\x01 \x01(\x05\"I\n\x14\x41\x64\x64KarmaUserResponse\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12 \n\x06status\x18\x02 \x01(\x0e\x32\x10.OperationStatus\"I\n\x12\x43hooseUsersRequest\x12\x1a\n\x12\x66orbidden_user_ids\x18\x01 \x03(\x05\x12\x17\n\x0fusers_to_choose\x18\x02 \x01(\r\"I\n\x13\x43hooseUsersResponse\x12\x10\n\x08user_ids\x18\x01 \x03(\x05\x12 \n\x06status\x18\x02 \x01(\x0e\x32\x10.OperationStatus2\xf1\x01\n\x05Karma\x12\x38\n\x0bModifyKarma\x12\x13.ModifyKarmaRequest\x1a\x14.ModifyKarmaResponse\x12)\n\x08GetKarma\x12\r.KarmaRequest\x1a\x0e.KarmaResponse\x12\x36\n\x07\x41\x64\x64User\x12\x14.AddKarmaUserRequest\x1a\x15.AddKarmaUserResponse\x12K\n\x1e\x43hooseKarmaWeightedRandomUsers\x12\x13.ChooseUsersRequest\x1a\x14.ChooseUsersResponseb\x06proto3'
+  serialized_pb=b'\n\x0bkarma.proto\x1a\x0butils.proto\"4\n\x12ModifyKarmaRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\r\n\x05\x64\x65lta\x18\x02 \x01(\x05\"7\n\x13ModifyKarmaResponse\x12 \n\x06status\x18\x01 \x01(\x0e\x32\x10.OperationStatus\"\x1f\n\x0cKarmaRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\"@\n\rKarmaResponse\x12\r\n\x05karma\x18\x01 \x01(\x05\x12 \n\x06status\x18\x02 \x01(\x0e\x32\x10.OperationStatus\"$\n\x13\x41\x64\x64KarmaUserRequest\x12\r\n\x05karma\x18\x01 \x01(\x05\"I\n\x14\x41\x64\x64KarmaUserResponse\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12 \n\x06status\x18\x02 \x01(\x0e\x32\x10.OperationStatus\"I\n\x12\x43hooseUsersRequest\x12\x1a\n\x12\x66orbidden_user_ids\x18\x01 \x03(\x05\x12\x17\n\x0fusers_to_choose\x18\x02 \x01(\r\"I\n\x13\x43hooseUsersResponse\x12\x10\n\x08user_ids\x18\x01 \x03(\x05\x12 \n\x06status\x18\x02 \x01(\x0e\x32\x10.OperationStatus2\xf1\x01\n\x05Karma\x12\x38\n\x0bModifyKarma\x12\x13.ModifyKarmaRequest\x1a\x14.ModifyKarmaResponse\x12)\n\x08GetKarma\x12\r.KarmaRequest\x1a\x0e.KarmaResponse\x12\x36\n\x07\x41\x64\x64User\x12\x14.AddKarmaUserRequest\x1a\x15.AddKarmaUserResponse\x12K\n\x1e\x43hooseKarmaWeightedRandomUsers\x12\x13.ChooseUsersRequest\x1a\x14.ChooseUsersResponseb\x06proto3'
   ,
   dependencies=[utils__pb2.DESCRIPTOR,])
 
@@ -76,7 +76,7 @@ _MODIFYKARMARESPONSE = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='status', full_name='ModifyKarmaResponse.status', index=0,
-      number=2, type=14, cpp_type=8, label=1,
+      number=1, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,

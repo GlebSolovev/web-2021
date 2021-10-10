@@ -7,12 +7,13 @@ from karma_service.karma_pb2 import (
     AddKarmaUserResponse, ChooseUsersResponse,
 )
 import karma_service.karma_pb2_grpc as karma_pb2_grpc
+from utils.constants import Constants
 from utils.utils_pb2 import OperationStatus
 
 
 class KarmaService(karma_pb2_grpc.KarmaServicer):
 
-    def __init__(self, max_limit: int = 100_000):
+    def __init__(self, max_limit: int = Constants.MAX_USERS_LIMIT):
         self.max_limit = max_limit
         self.__karma_database: Dict[int, int] = {}
 
@@ -40,7 +41,7 @@ class KarmaService(karma_pb2_grpc.KarmaServicer):
                       if karma > 0 and user_id not in forbidden_set]
         weights = np.array([self.__karma_database[user_id] for user_id in candidates])
         probabilities = weights / np.sum(weights)
-        if len(candidates) == 0:
+        if len(candidates) < request.users_to_choose:
             return ChooseUsersResponse(status=OperationStatus.USER_NOT_FOUND)
         chosen_user_ids = np.random.choice(candidates, size=request.users_to_choose, replace=False, p=probabilities)
         return ChooseUsersResponse(user_ids=chosen_user_ids.tolist(), status=OperationStatus.SUCCESS)

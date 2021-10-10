@@ -7,7 +7,7 @@ message ModifyKarmaRequest {
 }
 
 message ModifyKarmaResponse {
-  OperationStatus status = 2;
+  OperationStatus status = 1;
 }
 
 message KarmaRequest {
