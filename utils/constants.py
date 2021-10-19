@@ -1,3 +1,6 @@
+import os
+
+
 class Constants:
     KEYS_LEN: int = 100
     INITIAL_BALANCE: int = 100
@@ -12,3 +15,5 @@ class Constants:
     BANK_SERVICE_PORT = 50051
     KARMA_SERVICE_PORT = 50052
     USERS_SERVICE_PORT = 50053
+
+    USERS_SQL_LITE_DB_PATH = "users_service/users.sqlite"

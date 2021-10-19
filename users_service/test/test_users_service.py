@@ -1,7 +1,10 @@
 from typing import List
 
+import pytest
+
 from users_service.users_pb2 import AddNewUserRequest, User, NewUser, GetUserByKeyRequest, GetUserByIdRequest
 from users_service.users_service import UsersService
+from utils.constants import Constants
 from utils.utils_pb2 import OperationStatus
 
 
@@ -12,6 +15,12 @@ def generate_users(n: int, start: int = 0) -> List[NewUser]:
 def compare_new_user_to_user(new_user: NewUser, user: User) -> bool:
     return new_user.bank_id == user.bank_id and new_user.user_id == user.user_id \
            and new_user.name == user.name and new_user.wish == user.wish
+
+
+@pytest.fixture(autouse=True)
+def run_around_tests():
+    Constants.USERS_SQL_LITE_DB_PATH = "../users.sqlite"
+    yield
 
 
 def test_empty_getters():
@@ -28,9 +37,11 @@ def test_empty_getters():
 def test_simple_add_new_user():
     service = UsersService()
     new_user = generate_users(1)[0]
+    assert service.users_number == 0
     request = AddNewUserRequest(new_user=new_user)
     response = service.AddNewUser(request, None)
     assert response.status == OperationStatus.SUCCESS
+    assert service.users_number == 1
 
 
 def test_simple_add_and_get():
@@ -52,7 +63,7 @@ def test_simple_add_and_get():
 
 def test_add_and_get_complex():
     service = UsersService()
-    n = 100
+    n = 10
     for rep in range(5):
         new_users = generate_users(n, rep * n)
         keys = []
