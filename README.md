@@ -10,9 +10,6 @@ To *run app* use:
 
 via different terminal sessions in directory that contains app.
 
-See Flower at: http://localhost:5555/
-See RabbitMQ at: http://localhost:15672/
-
 To *run autotests* use: ```python3 -m pytest --ignore=app/test/test_users_handler.py``` in the same directory.<br/>
 For now ```app/test/test_users_handler.py``` can be used only manually, reloading all grpc services each test. 
 
