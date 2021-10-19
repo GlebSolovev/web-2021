@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0bkarma.proto\x1a\x0butils.proto\"4\n\x12ModifyKarmaRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\r\n\x05\x64\x65lta\x18\x02 \x01(\x05\"7\n\x13ModifyKarmaResponse\x12 \n\x06status\x18\x01 \x01(\x0e\x32\x10.OperationStatus\"\x1f\n\x0cKarmaRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\"@\n\rKarmaResponse\x12\r\n\x05karma\x18\x01 \x01(\x05\x12 \n\x06status\x18\x02 \x01(\x0e\x32\x10.OperationStatus\"$\n\x13\x41\x64\x64KarmaUserRequest\x12\r\n\x05karma\x18\x01 \x01(\x05\"I\n\x14\x41\x64\x64KarmaUserResponse\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12 \n\x06status\x18\x02 \x01(\x0e\x32\x10.OperationStatus\"I\n\x12\x43hooseUsersRequest\x12\x1a\n\x12\x66orbidden_user_ids\x18\x01 \x03(\x05\x12\x17\n\x0fusers_to_choose\x18\x02 \x01(\r\"I\n\x13\x43hooseUsersResponse\x12\x10\n\x08user_ids\x18\x01 \x03(\x05\x12 \n\x06status\x18\x02 \x01(\x0e\x32\x10.OperationStatus2\xf6\x01\n\x05Karma\x12\x38\n\x0bModifyKarma\x12\x13.ModifyKarmaRequest\x1a\x14.ModifyKarmaResponse\x12)\n\x08GetKarma\x12\r.KarmaRequest\x1a\x0e.KarmaResponse\x12;\n\x0c\x41\x64\x64KarmaUser\x12\x14.AddKarmaUserRequest\x1a\x15.AddKarmaUserResponse\x12K\n\x1e\x43hooseKarmaWeightedRandomUsers\x12\x13.ChooseUsersRequest\x1a\x14.ChooseUsersResponseb\x06proto3'
+  serialized_pb=b'\n\x0bkarma.proto\x1a\x0butils.proto\"4\n\x12ModifyKarmaRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\r\n\x05\x64\x65lta\x18\x02 \x01(\x05\"7\n\x13ModifyKarmaResponse\x12 \n\x06status\x18\x01 \x01(\x0e\x32\x10.OperationStatus\"\x1f\n\x0cKarmaRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\"@\n\rKarmaResponse\x12\r\n\x05karma\x18\x01 \x01(\x05\x12 \n\x06status\x18\x02 \x01(\x0e\x32\x10.OperationStatus\"$\n\x13\x41\x64\x64KarmaUserRequest\x12\r\n\x05karma\x18\x01 \x01(\x05\"I\n\x14\x41\x64\x64KarmaUserResponse\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12 \n\x06status\x18\x02 \x01(\x0e\x32\x10.OperationStatus\"I\n\x12\x43hooseUsersRequest\x12\x1a\n\x12\x66orbidden_user_ids\x18\x01 \x03(\x05\x12\x17\n\x0fusers_to_choose\x18\x02 \x01(\r\"I\n\x13\x43hooseUsersResponse\x12\x10\n\x08user_ids\x18\x01 \x03(\x05\x12 \n\x06status\x18\x02 \x01(\x0e\x32\x10.OperationStatus\"$\n\x11\x43reateStatRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\"6\n\x12\x43reateStatResponse\x12 \n\x06status\x18\x01 \x01(\x0e\x32\x10.OperationStatus2\xad\x02\n\x05Karma\x12\x38\n\x0bModifyKarma\x12\x13.ModifyKarmaRequest\x1a\x14.ModifyKarmaResponse\x12)\n\x08GetKarma\x12\r.KarmaRequest\x1a\x0e.KarmaResponse\x12;\n\x0c\x41\x64\x64KarmaUser\x12\x14.AddKarmaUserRequest\x1a\x15.AddKarmaUserResponse\x12K\n\x1e\x43hooseKarmaWeightedRandomUsers\x12\x13.ChooseUsersRequest\x1a\x14.ChooseUsersResponse\x12\x35\n\nCreateStat\x12\x12.CreateStatRequest\x1a\x13.CreateStatResponseb\x06proto3'
   ,
   dependencies=[utils__pb2.DESCRIPTOR,])
 
@@ -317,10 +317,75 @@ _CHOOSEUSERSRESPONSE = _descriptor.Descriptor(
   serialized_end=499,
 )
 
+
+_CREATESTATREQUEST = _descriptor.Descriptor(
+  name='CreateStatRequest',
+  full_name='CreateStatRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='user_id', full_name='CreateStatRequest.user_id', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=501,
+  serialized_end=537,
+)
+
+
+_CREATESTATRESPONSE = _descriptor.Descriptor(
+  name='CreateStatResponse',
+  full_name='CreateStatResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='status', full_name='CreateStatResponse.status', index=0,
+      number=1, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=539,
+  serialized_end=593,
+)
+
 _MODIFYKARMARESPONSE.fields_by_name['status'].enum_type = utils__pb2._OPERATIONSTATUS
 _KARMARESPONSE.fields_by_name['status'].enum_type = utils__pb2._OPERATIONSTATUS
 _ADDKARMAUSERRESPONSE.fields_by_name['status'].enum_type = utils__pb2._OPERATIONSTATUS
 _CHOOSEUSERSRESPONSE.fields_by_name['status'].enum_type = utils__pb2._OPERATIONSTATUS
+_CREATESTATRESPONSE.fields_by_name['status'].enum_type = utils__pb2._OPERATIONSTATUS
 DESCRIPTOR.message_types_by_name['ModifyKarmaRequest'] = _MODIFYKARMAREQUEST
 DESCRIPTOR.message_types_by_name['ModifyKarmaResponse'] = _MODIFYKARMARESPONSE
 DESCRIPTOR.message_types_by_name['KarmaRequest'] = _KARMAREQUEST
@@ -329,6 +394,8 @@ DESCRIPTOR.message_types_by_name['AddKarmaUserRequest'] = _ADDKARMAUSERREQUEST
 DESCRIPTOR.message_types_by_name['AddKarmaUserResponse'] = _ADDKARMAUSERRESPONSE
 DESCRIPTOR.message_types_by_name['ChooseUsersRequest'] = _CHOOSEUSERSREQUEST
 DESCRIPTOR.message_types_by_name['ChooseUsersResponse'] = _CHOOSEUSERSRESPONSE
+DESCRIPTOR.message_types_by_name['CreateStatRequest'] = _CREATESTATREQUEST
+DESCRIPTOR.message_types_by_name['CreateStatResponse'] = _CREATESTATRESPONSE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 ModifyKarmaRequest = _reflection.GeneratedProtocolMessageType('ModifyKarmaRequest', (_message.Message,), {
@@ -387,6 +454,20 @@ ChooseUsersResponse = _reflection.GeneratedProtocolMessageType('ChooseUsersRespo
   })
 _sym_db.RegisterMessage(ChooseUsersResponse)
 
+CreateStatRequest = _reflection.GeneratedProtocolMessageType('CreateStatRequest', (_message.Message,), {
+  'DESCRIPTOR' : _CREATESTATREQUEST,
+  '__module__' : 'karma_pb2'
+  # @@protoc_insertion_point(class_scope:CreateStatRequest)
+  })
+_sym_db.RegisterMessage(CreateStatRequest)
+
+CreateStatResponse = _reflection.GeneratedProtocolMessageType('CreateStatResponse', (_message.Message,), {
+  'DESCRIPTOR' : _CREATESTATRESPONSE,
+  '__module__' : 'karma_pb2'
+  # @@protoc_insertion_point(class_scope:CreateStatResponse)
+  })
+_sym_db.RegisterMessage(CreateStatResponse)
+
 
 
 _KARMA = _descriptor.ServiceDescriptor(
@@ -396,8 +477,8 @@ _KARMA = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=502,
-  serialized_end=748,
+  serialized_start=596,
+  serialized_end=897,
   methods=[
   _descriptor.MethodDescriptor(
     name='ModifyKarma',
@@ -436,6 +517,16 @@ _KARMA = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_CHOOSEUSERSREQUEST,
     output_type=_CHOOSEUSERSRESPONSE,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='CreateStat',
+    full_name='Karma.CreateStat',
+    index=4,
+    containing_service=None,
+    input_type=_CREATESTATREQUEST,
+    output_type=_CREATESTATRESPONSE,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),

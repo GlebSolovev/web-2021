@@ -34,6 +34,11 @@ class KarmaStub(object):
                 request_serializer=karma__pb2.ChooseUsersRequest.SerializeToString,
                 response_deserializer=karma__pb2.ChooseUsersResponse.FromString,
                 )
+        self.CreateStat = channel.unary_unary(
+                '/Karma/CreateStat',
+                request_serializer=karma__pb2.CreateStatRequest.SerializeToString,
+                response_deserializer=karma__pb2.CreateStatResponse.FromString,
+                )
 
 
 class KarmaServicer(object):
@@ -63,6 +68,12 @@ class KarmaServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def CreateStat(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_KarmaServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -85,6 +96,11 @@ def add_KarmaServicer_to_server(servicer, server):
                     servicer.ChooseKarmaWeightedRandomUsers,
                     request_deserializer=karma__pb2.ChooseUsersRequest.FromString,
                     response_serializer=karma__pb2.ChooseUsersResponse.SerializeToString,
+            ),
+            'CreateStat': grpc.unary_unary_rpc_method_handler(
+                    servicer.CreateStat,
+                    request_deserializer=karma__pb2.CreateStatRequest.FromString,
+                    response_serializer=karma__pb2.CreateStatResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -161,5 +177,22 @@ class Karma(object):
         return grpc.experimental.unary_unary(request, target, '/Karma/ChooseKarmaWeightedRandomUsers',
             karma__pb2.ChooseUsersRequest.SerializeToString,
             karma__pb2.ChooseUsersResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def CreateStat(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Karma/CreateStat',
+            karma__pb2.CreateStatRequest.SerializeToString,
+            karma__pb2.CreateStatResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

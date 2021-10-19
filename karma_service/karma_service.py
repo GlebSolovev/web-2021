@@ -1,10 +1,11 @@
-from typing import Dict
+from typing import Dict, Tuple, List
 import numpy as np
 
+from karma_service.celery_app import celery_app
 from karma_service.karma_pb2 import (
     ModifyKarmaResponse,
     KarmaResponse,
-    AddKarmaUserResponse, ChooseUsersResponse,
+    AddKarmaUserResponse, ChooseUsersResponse, CreateStatResponse,
 )
 import karma_service.karma_pb2_grpc as karma_pb2_grpc
 from utils.constants import Constants
@@ -35,13 +36,27 @@ class KarmaService(karma_pb2_grpc.KarmaServicer):
         self.__karma_database[new_user_id] = request.karma
         return AddKarmaUserResponse(user_id=new_user_id, status=OperationStatus.SUCCESS)
 
-    def ChooseKarmaWeightedRandomUsers(self, request, context):
-        forbidden_set = set(request.forbidden_user_ids)
+    def __get_candidates_probabilities(self, forbidden_user_ids) -> Tuple[List[int], np.array]:
+        forbidden_set = set(forbidden_user_ids)
         candidates = [user_id for user_id, karma in self.__karma_database.items()
                       if karma > 0 and user_id not in forbidden_set]
         weights = np.array([self.__karma_database[user_id] for user_id in candidates])
-        probabilities = weights / np.sum(weights)
+        return candidates, weights / np.sum(weights)
+
+    def ChooseKarmaWeightedRandomUsers(self, request, context):
+        candidates, probabilities = self.__get_candidates_probabilities(request.forbidden_user_ids)
         if len(candidates) < request.users_to_choose:
             return ChooseUsersResponse(status=OperationStatus.USER_NOT_FOUND)
         chosen_user_ids = np.random.choice(candidates, size=request.users_to_choose, replace=False, p=probabilities)
         return ChooseUsersResponse(user_ids=chosen_user_ids.tolist(), status=OperationStatus.SUCCESS)
+
+    def CreateStat(self, request, context):
+        candidates, probabilities = self.__get_candidates_probabilities([])
+        task = celery_app.send_task(
+            "celery_worker.calculate_stat", args=[candidates, probabilities, request.user_id])
+        print(task)
+        return CreateStatResponse(status=OperationStatus.SUCCESS)
+
+    # def GetStat(self, request, context):
+    #     # try to get stat from redis
+    #     pass
