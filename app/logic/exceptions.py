@@ -20,3 +20,7 @@ class BadCoinsNumberException(Exception):
 
 class BadDateException(Exception):
     pass
+
+
+class NoSuchStatException(Exception):
+    pass

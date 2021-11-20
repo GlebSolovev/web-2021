@@ -38,9 +38,18 @@ message ChooseUsersResponse {
   OperationStatus status = 2;
 }
 
+message CreateStatRequest {
+  int32 user_id = 1;
+}
+
+message CreateStatResponse {
+  OperationStatus status = 1;
+}
+
 service Karma {
   rpc ModifyKarma (ModifyKarmaRequest) returns (ModifyKarmaResponse);
   rpc GetKarma (KarmaRequest) returns (KarmaResponse);
   rpc AddKarmaUser (AddKarmaUserRequest) returns (AddKarmaUserResponse);
   rpc ChooseKarmaWeightedRandomUsers (ChooseUsersRequest) returns (ChooseUsersResponse);
+  rpc CreateStat (CreateStatRequest) returns (CreateStatResponse);
 }

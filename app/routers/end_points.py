@@ -4,11 +4,11 @@ from graphene import Schema
 from starlette.graphql import GraphQLApp
 
 from app.logic.exceptions import NoSuchUserException, BadCoinsNumberException, UsersLimitHasReachedException, \
-    SelfTransactionsAreForbiddenException
+    SelfTransactionsAreForbiddenException, NoSuchStatException
 from app.logic.global_env import GlobalEnv
 from app.models.graphene_models import Query
 from app.models.pydantic_models import User, UsersLimitHasReachedErrorResponse, NoSuchUserErrorResponse, \
-    BadCoinsNumberErrorResponse, SelfTransactionsAreForbiddenErrorResponse
+    BadCoinsNumberErrorResponse, SelfTransactionsAreForbiddenErrorResponse, NoSuchStatErrorResponse
 
 router = APIRouter()
 
@@ -68,6 +68,33 @@ async def support_happy_person(secret_key: str, coins: int):
     except BadCoinsNumberException:
         return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST,
                             content=BadCoinsNumberErrorResponse().dict())
+
+
+@router.post("/user/{secret_key}/stat/create", responses={
+    status.HTTP_404_NOT_FOUND: {"model": NoSuchUserErrorResponse}})
+async def create_stat(secret_key: str):
+    try:
+        user = GlobalEnv.handler.get_user(secret_key)
+        stat_id = GlobalEnv.handler.create_stat(user)
+        return {"stat_id": stat_id}
+    except NoSuchUserException:
+        return JSONResponse(status_code=status.HTTP_404_NOT_FOUND,
+                            content=NoSuchUserErrorResponse().dict())
+
+
+# @router.get("/user/{secret_key}/stat/{stat_id}", responses={
+#     status.HTTP_404_NOT_FOUND: {"model": NoSuchUserErrorResponse},
+#     status.HTTP_400_BAD_REQUEST: {"model": NoSuchStatErrorResponse}})
+# async def read_stat(secret_key: str, stat_id: int):
+#     try:
+#         user = GlobalEnv.handler.get_user(secret_key)
+#         return GlobalEnv.handler.get_stat(user, stat_id)
+#     except NoSuchUserException:
+#         return JSONResponse(status_code=status.HTTP_404_NOT_FOUND,
+#                             content=NoSuchUserErrorResponse().dict())
+#     except NoSuchStatException:
+#         return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST,
+#                             content=NoSuchStatErrorResponse().dict())
 
 
 router.add_route("/happy-persons-records", GraphQLApp(schema=Schema(query=Query, auto_camelcase=False)))

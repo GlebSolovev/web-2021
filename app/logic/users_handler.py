@@ -15,7 +15,8 @@ import grpc
 
 from bank_service.bank_pb2 import AddBankUserRequest, BalanceRequest, TransactionRequest
 from bank_service.bank_pb2_grpc import BankStub
-from karma_service.karma_pb2 import AddKarmaUserRequest, ChooseUsersRequest, KarmaRequest, ModifyKarmaRequest
+from karma_service.karma_pb2 import AddKarmaUserRequest, ChooseUsersRequest, KarmaRequest, ModifyKarmaRequest, \
+    CreateStatRequest
 from karma_service.karma_pb2_grpc import KarmaStub
 from utils.utils_pb2 import OperationStatus
 
@@ -186,3 +187,12 @@ class UsersHandler:
             raise BadCoinsNumberException
         else:
             raise ValueError("invalid bank OperationStatus " + str(status))
+
+    def create_stat(self, user: User) -> int:
+        create_stat_request = CreateStatRequest(user_id=user.get_user_id())
+        create_stat_response = self.karma_service_client.CreateStat(create_stat_request)
+        status = create_stat_response.status
+        if status != OperationStatus.SUCCESS:
+            raise ValueError("invalid karma CreateStat OperationStatus " + str(status))
+        return 1  # mock for now
+

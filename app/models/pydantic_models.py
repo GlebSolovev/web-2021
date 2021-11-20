@@ -20,3 +20,7 @@ class SelfTransactionsAreForbiddenErrorResponse(BaseModel):
 
 class BadCoinsNumberErrorResponse(BaseModel):
     message: str = "Number of coins must be > 0 and <= balance"
+
+
+class NoSuchStatErrorResponse(BaseModel):
+    message: str = "Incorrect stat id, no such stat in storage"
