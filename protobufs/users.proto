@@ -1,0 +1,45 @@
+syntax = "proto3";
+import "utils.proto";
+
+message NewUser {
+  int32 bank_id = 1;
+  int32 user_id = 2;
+  string name = 3;
+  string wish = 4;
+}
+
+message User {
+  string key = 1;
+  int32 bank_id = 2;
+  int32 user_id = 3;
+  string name = 4;
+  string wish = 5;
+}
+
+message GetUserByIdRequest {
+  int32 user_id = 1;
+}
+
+message GetUserByKeyRequest {
+  string key = 1;
+}
+
+message GetUserResponse {
+  User user = 1;
+  OperationStatus status = 2;
+}
+
+message AddNewUserRequest {
+  NewUser new_user = 1;
+}
+
+message AddNewUserResponse {
+  string key = 1;
+  OperationStatus status = 2;
+}
+
+service Users {
+  rpc GetUserById (GetUserByIdRequest) returns (GetUserResponse);
+  rpc GetUserByKey (GetUserByKeyRequest) returns (GetUserResponse);
+  rpc AddNewUser (AddNewUserRequest) returns (AddNewUserResponse);
+}
